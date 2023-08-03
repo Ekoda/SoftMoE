@@ -24,7 +24,7 @@ $$
 N = \frac{HW}{P^2}
 $$
 
-These patches can then be flattened and mapped to vector fitting the model dimension trough a linear projection, also called a patch embedding. Then we can feed the image data to a standard transformer, long live the transformer.
+These patches can then be mapped to vector fitting the model dimension trough a linear projection, also called a patch embedding. From there the data flows like in a standard transformer, long live the transformer.
 
 ---
 ## Requirements
