@@ -6,6 +6,12 @@ The example.ipynb contains a training run and an inference on the mnist dataset.
 ## What is a Vision Transformer?
 The Vision Transformer (ViT) proposed by the paper "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" (Dosovitskiy et al., 2021) demonstrated that Transfromers could achieve state of the art results in computer vision. This is done by essentially breaking down an image into a sequence of fixed-size patches (like "words" in NLP), linearly projecting these patches into embedding vectors, and feeding them into a standard Transformer encoder.
 
+In more detailed terms the picture 
+
+$$
+\mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}
+$$
+
 ---
 ## Requirements
 - Python 3.10 or later
