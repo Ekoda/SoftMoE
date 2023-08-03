@@ -26,9 +26,11 @@ $$
 
 These patches can then be mapped to vector fitting the model dimension trough a linear projection, also called a patch embedding. From there the data flows like in a standard transformer, long live the transformer.
 
+
 <p align="center">
   <img src="ViT.png" alt="vision transformer flowchart">
 </p>
+
 
 ---
 ## Requirements
