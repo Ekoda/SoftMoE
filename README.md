@@ -6,28 +6,11 @@ The example.ipynb contains a training run and an inference on the mnist dataset.
 ## What is a Vision Transformer?
 The Vision Transformer (ViT) proposed by the paper "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" (Dosovitskiy et al., 2021) demonstrated that Transfromers could achieve state of the art results in computer vision. This is done by essentially breaking down an image into a sequence of fixed-size patches (like "words" in NLP), linearly projecting these patches into embedding vectors, and feeding them into a standard Transformer encoder.
 
-More specifically we take an image:
+More specifically we take an image $\mathbf{x} \in \mathbb{R}^{H \times W \times C}$ and reshape it into a sequence of flattened 2D patches $\mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}$.
 
-$$
-\mathbf{x} \in \mathbb{R}^{H \times W \times C}
-$$
+H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB) and (P, P) is the resolution of each image patch, meaing that the total number of patches (or, the sequence length of the picture) can be represented by $N = \frac{HW}{P^2}$
 
-and reshape it into a sequence of flattened 2D patches:
-
-$$
-\mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}
-$$
-
-H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB)
-(P, P) is the resolution of each image patch, meaing that the total number of patches (or, the sequence length of the picture) can be represented by:
-
-$$
-N = \frac{HW}{P^2}
-$$
-
-These patches can then be flattened and mapped to a D dimensional vector trough a linear projection, also called a patch embedding.
-
-And so we can feed the image data to a standard transformer, long live the transformer. 
+These patches can then be flattened and mapped to a D dimensional vector trough a linear projection, also called a patch embedding. We can feed the image data to a standard transformer, long live the transformer. 
 
 ---
 ## Requirements
