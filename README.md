@@ -20,7 +20,7 @@ $$
 
 H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB). (P, P) is the resolution of each image patch, meaning that the total number of patches (or, the sequence length of the picture) can be represented by
 
-[!Vision transformer flowchart](ViT.png)
+![Vision transformer flowchart](ViT.png)
 
 $$
 N = \frac{HW}{P^2}
