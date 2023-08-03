@@ -18,17 +18,17 @@ $$
 \mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}
 $$
 
-H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB). (P, P) is the resolution of each image patch, meaning that the total number of patches (or, the sequence length of the picture) can be represented by
-
-<p align="center">
-  <img src="ViT.png" alt="vision transformer flowchart">
-</p>
+H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB). (P, P) is the resolution of each image patch, meaning that the total number of patches (or, the sequence length of the picture) can be represented b
 
 $$
 N = \frac{HW}{P^2}
 $$
 
 These patches can then be mapped to vector fitting the model dimension trough a linear projection, also called a patch embedding. From there the data flows like in a standard transformer, long live the transformer.
+
+<p align="center">
+  <img src="ViT.png" alt="vision transformer flowchart">
+</p>
 
 ---
 ## Requirements
