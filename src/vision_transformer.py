@@ -6,19 +6,27 @@ from PIL import Image
 from src import Transformer, Config, ImageTokenizer, TokenizedImagesDataset
 from tqdm import tqdm, tqdm_notebook
 
+
 class VisionTransformer:
     def __init__(self, config: Config):
         self.config = config
         self.tokenizer = ImageTokenizer(config)
-        self.model = Transformer(config).to(config.device)
+        if config.should_load:
+            self.load_model()
+        else:
+            self.model = Transformer(config).to(config.device)
+
+    def load_model(self):
+        self.config.load_model_params()
+        self.model = Transformer(self.config).to(self.config.device)
+        self.model.load_state_dict(torch.load(self.config.load_path))
 
     def train(self, train_data: DataLoader, val_data: DataLoader):
         model = self.model
         config = self.config
-        parameters = model.parameters()
 
         optimizer = optim.AdamW(
-            parameters,
+            model.parameters(),
             lr=config.learning_rate,
             weight_decay=config.weight_decay,
             betas=(config.beta_1, config.beta_2),
@@ -39,7 +47,7 @@ class VisionTransformer:
                 loss = criterion(logits, labels)
                 loss.backward()
                 if config.grad_clip:
-                    nn.utils.clip_grad_norm_(parameters, config.grad_clip)
+                    nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
                 optimizer.step()
                 train_loss += loss.item()
             train_loss = train_loss / len(train_data)
@@ -63,6 +71,10 @@ class VisionTransformer:
                     f'\tVal Loss: {val_loss}\n'
                     f'\tTime: {epoch_time:.3f}s'
                 )
+
+            if config.should_save:
+                torch.save(model.state_dict(), config.save_path)
+                config.save_to_yaml(train_loss, val_loss)
 
 
     def predict(self, x: Image.Image or torch.Tensor) -> int:

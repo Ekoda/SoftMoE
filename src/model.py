@@ -66,21 +66,57 @@ class FeedForward(nn.Module):
         return self.network(x)
 
 
+class SoftMoe(nn.Module):
+    """
+    Soft Mixture of Experts (SoftMoE) implementation as described in:
+    "From Sparse to Soft Mixtures of Experts" by Joan Puigcerver, Carlos Riquelme, 
+    Basil Mustafa, Neil Houlsby at Google DeepMind.
+
+    The soft MoE is neither sparse, nor dense, but a mixture.
+    The input activates all experts as in a dense MoE,
+    but it is done so only fractionally as in a sparse MoE.
+    
+    This class provides a fully-differentiable sparse Transformer that addresses 
+    challenges in MoEs like training instability, token dropping, inability to scale 
+    the number of experts, or ineffective fine-tuning.
+
+    https://arxiv.org/abs/2308.00951
+    """
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+        self.experts = nn.ModuleList([FeedForward(config) for _ in range(config.n_experts)])
+        self.phi = nn.Parameter(torch.randn(config.dimension, config.n_experts * config.slots_per_expert))
+        
+    def forward(self, x: torch.Tensor):
+        logits = torch.matmul(x, self.phi) # (batch_size, seq_len, slots)
+        dispatch_weights = F.softmax(logits, dim=-1)
+        combine_weights = F.softmax(logits, dim=1)
+        xs = torch.bmm(dispatch_weights.transpose(1, 2), x)
+        ys = torch.cat(
+            [expert(xs[:, i * self.config.slots_per_expert : (i + 1) * self.config.slots_per_expert, :]) 
+                          for i, expert in enumerate(self.experts)],
+            dim=1
+            )
+        y = torch.bmm(combine_weights, ys)
+        return y
+
+
 class TransformerBlock(nn.Module):
     def __init__(self, layer_id: int, config: Config):
         super().__init__()
         self.config = config
         self.layer_id = layer_id
         self.attention = MultiQueryAttention(config)
-        self.feed_forward = FeedForward(config)
+        self.moe = SoftMoe(config)
         self.attention_norm = Norm(config)
-        self.ff_norm = Norm(config)
+        self.moe_norm = Norm(config)
 
     def forward(self, x: torch.Tensor):
         x = self.attention_norm(x)
         x = self.attention(x) + x
-        x = self.ff_norm(x)
-        x = self.feed_forward(x) + x
+        x = self.moe_norm(x)
+        x = self.moe(x) + x
         return x
 
 

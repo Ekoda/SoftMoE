@@ -1,36 +1,10 @@
-This project is an implementation of the Vision Transformer (Dosovitskiy et al., 2021), but with the twist of using multi-query attention as opposed to standard attention for improved performance.
-
-The example.ipynb contains a training run and an inference on the mnist dataset.
+Apologies to any disappointed moe anime loves, this repository implements a soft mixture of experts visual transformer model as described in the "From Sparse to Soft Mixtures of Experts" paper (Puigcerver et al., 2023).
 
 ---
-## What is a Vision Transformer?
-The Vision Transformer (ViT) proposed by the paper "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" (Dosovitskiy et al., 2021) demonstrated that Transfromers could achieve state of the art results in computer vision. This is done by essentially breaking down an image into a sequence of fixed-size patches (like "words" in NLP), linearly projecting these patches into embedding vectors, and feeding them into a standard Transformer encoder.
+## What are Soft Mixture of Expert Architectures?
+The Soft Mixture of Experts architecture seeks to address the limitations of MoE's such as token dropping, scaling difficulties, ineffective finetunining and training instability. This is done through passing different weighted combinations of the input tokens to each expert. This way each input token only fractionally activates all model parameters. 
 
-More specifically we take an image, $\mathbf{x}$
-
-$$
-\mathbf{x} \in \mathbb{R}^{H \times W \times C}
-$$
-
-and reshape it into a sequence of flattened 2D patches, $\mathbf{x}_p$
-
-$$
-\mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}
-$$
-
-H and W represent the resolution of the image, while C is the number of channels which represent color (3 in RGB). (P, P) is the resolution of each image patch, meaning that the total number of patches (or, the sequence length of the picture) can be represented b
-
-$$
-N = \frac{HW}{P^2}
-$$
-
-These patches can then be mapped to vector fitting the model dimension trough a linear projection, also called a patch embedding. From there the data flows like in a standard transformer, long live the transformer.
-
-
-<p align="center">
-  <img src="ViT.png" alt="vision transformer flowchart">
-</p>
-
+Soft MoE models exist in between sparse MoE models, where each token is sent only to a corresponding expert, and dense models, where every token is passed to all experts. As the authors put it, the advantege of the soft architecture lies in it being able to avoid typicall routing alorithms used in sparse MoE's such as top-k which are not suited for hardware accelerators - causing soft models to perform well in terms of speed when compared to sparse models.
 
 ---
 ## Requirements
@@ -46,4 +20,4 @@ pip install -r requirements.txt
 
 ---
 ## References
-Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., Uszkoreit, J., & Houlsby, N. (2021). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. ArXiv, cs.CV. https://arxiv.org/abs/2010.11929
+Puigcerver, J., Riquelme, C., Mustafa, B., & Houlsby, N. (2023). From Sparse to Soft Mixtures of Experts. arXiv preprint arXiv:2308.00951.
