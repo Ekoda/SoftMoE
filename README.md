@@ -7,6 +7,10 @@ The Soft Mixture of Experts architecture seeks to address the limitations of MoE
 Soft MoE models exist in between sparse MoE models, where each token is sent only to a corresponding expert, and dense models, where every token is passed to all experts. As the authors put it, the advantege of the soft architecture lies in it being able to avoid typicall routing alorithms used in sparse MoE's such as top-k which are not suited for hardware accelerators - causing soft models to perform well in terms of speed when compared to sparse models.
 
 ---
+## How to use
+The model config is implemented in the `config.py` file, which is initiated and passed on to tokenizer, model and any the data preparation function if used. If should_load is specified, and a path is provided the model will load the weights and model config it. Likewise it will save both params and config in the specified path.
+
+---
 ## Requirements
 - Python 3.10 or later
 
