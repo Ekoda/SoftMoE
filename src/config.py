@@ -8,7 +8,7 @@ class Config():
     dimension: int = 512
     n_layers: int = 2
     n_heads: int = 8
-    n_experts: int = 6
+    n_experts: int = 8
     slots_per_expert: int = 1
     n_outputs: int = 10
     n_channels: int = 1

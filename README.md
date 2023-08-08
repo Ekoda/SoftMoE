@@ -1,10 +1,10 @@
-Apologies to any disappointed moe anime loves, this repository implements a soft mixture of experts visual transformer model as described in the "From Sparse to Soft Mixtures of Experts" paper (Puigcerver et al., 2023).
+Apologies to any disappointed moe anime lovers, this repository implements a soft mixture of experts visual transformer model as described in the "From Sparse to Soft Mixtures of Experts" paper (Puigcerver et al., 2023).
 
 ---
 ## What are Soft Mixture of Expert Architectures?
-The Soft Mixture of Experts architecture seeks to address the limitations of MoE's such as token dropping, scaling difficulties, ineffective finetunining and training instability. This is done through passing different weighted combinations of the input tokens to each expert. This way each input token only fractionally activates all model parameters. 
+The Soft Mixture of Experts architecture seeks to address the limitations of MoE's such as token dropping, scaling difficulties, ineffective fine tuning and training instability. This is done through passing different weighted combinations of the input tokens to each expert. This way each input token only fractionally activates all model parameters. 
 
-Soft MoE models exist in between sparse MoE models, where each token is sent only to a corresponding expert, and dense models, where every token is passed to all experts. As the authors put it, the advantege of the soft architecture lies in it being able to avoid typicall routing alorithms used in sparse MoE's such as top-k which are not suited for hardware accelerators - causing soft models to perform well in terms of speed when compared to sparse models.
+Soft MoE models exist in between sparse MoE models, where each token is sent only to a corresponding expert, and dense models, where every token is passed to all experts. As the authors put it, the advantage of the soft architecture lies in it being able to avoid typical routing algorithms used in sparse MoE's such as top-k which are not suited for hardware accelerators - causing soft models to perform well in terms of speed when compared to sparse models.
 
 ---
 ## How to use
