@@ -8,7 +8,7 @@ Soft MoE models exist in between sparse MoE models, where each token is sent onl
 
 ---
 ## How to use
-The model config is implemented in the `config.py` file, which is initiated and passed on to tokenizer, model and the data preparation function if used. If `should_load` is specified, and a path is provided the model will load the weights and model config it. Likewise it will save both params and config in the specified path.
+The model config is implemented in the `config.py` file, which is initiated and passed on to tokenizer, model and the data preparation function if used. If `should_load` is specified, and a path is provided the model will load the weights and model config with it. Likewise it will save both params and config in the specified path.
 
 ---
 ## Requirements
